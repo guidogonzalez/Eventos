@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Eventos</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="titulo_eventos">Eventos</string>
+    <string name="titulo_nuevo">Nuevo</string>
+    <string name="titulo_perfil">Perfil</string>
+    <string name="mensaje_error_cargar">Ha ocurrido un error a la hora de cargar los eventos.</string>
 </resources>

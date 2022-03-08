@@ -32,6 +32,7 @@ android {
 
 def retrofitVersion = '2.9.0'
 def rxJavaVersion = '3.0.0'
+def glideVersion = '4.12.0'
 
 dependencies {
 
@@ -44,13 +45,18 @@ dependencies {
     implementation 'androidx.navigation:navigation-ui:2.4.1'
 
     // Retrofit
-    implementation "com.squareup.retrofit2:$retrofitVersion"
+    implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
     implementation "com.squareup.retrofit2:converter-gson:$retrofitVersion"
     implementation "com.squareup.retrofit2:adapter-rxjava3:$retrofitVersion"
 
     // RxJava
     implementation "io.reactivex.rxjava3:rxjava:$rxJavaVersion"
     implementation "io.reactivex.rxjava3:rxandroid:$rxJavaVersion"
+
+    // Utils
+    implementation "com.github.bumptech.glide:glide:$glideVersion"
+    annotationProcessor "com.github.bumptech.glide:compiler:$glideVersion"
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
