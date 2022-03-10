@@ -9,7 +9,6 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.guidogonzalez.eventos.api.EventosApiService;
 import com.guidogonzalez.eventos.model.Evento;
-import com.guidogonzalez.eventos.model.ListaEventos;
 
 import java.util.List;
 
@@ -20,7 +19,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class HomeViewModel extends AndroidViewModel {
 
-    public MutableLiveData<List<Evento>> listaEventos = new MutableLiveData<>();
+    public MutableLiveData<List<Evento>> mldListaEventos = new MutableLiveData<>();
     public MutableLiveData<Boolean> bEventoErrorCargar = new MutableLiveData<>();
     public MutableLiveData<Boolean> bEventoCargando = new MutableLiveData<>();
 
@@ -32,6 +31,7 @@ public class HomeViewModel extends AndroidViewModel {
     }
 
     public void cargarEventos() {
+
         bEventoCargando.setValue(true);
 
         compositeDisposable.add(
@@ -41,10 +41,10 @@ public class HomeViewModel extends AndroidViewModel {
                         .subscribeWith(new DisposableSingleObserver<List<Evento>>() {
 
                             @Override
-                            public void onSuccess(List<Evento> bebidas) {
-                                eventosRecibidos(bebidas);
+                            public void onSuccess(List<Evento> eventos) {
+                                eventosRecibidos(eventos);
 
-                                Log.i("SUCCESS", bebidas.toString());
+                                Log.i("SUCCESS", eventos.toString());
                             }
 
                             @Override
@@ -58,9 +58,9 @@ public class HomeViewModel extends AndroidViewModel {
         );
     }
 
-    private void eventosRecibidos(List<Evento> listaBebidas) {
+    private void eventosRecibidos(List<Evento> listaEventos) {
 
-        listaEventos.setValue(listaBebidas);
+        mldListaEventos.setValue(listaEventos);
         bEventoErrorCargar.setValue(false);
         bEventoCargando.setValue(false);
     }

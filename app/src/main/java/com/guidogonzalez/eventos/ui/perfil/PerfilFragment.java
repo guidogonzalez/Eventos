@@ -12,20 +12,20 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import com.guidogonzalez.eventos.databinding.FragmentNotificationsBinding;
+import com.guidogonzalez.eventos.databinding.FragmentPerfilBinding;
 import com.guidogonzalez.eventos.viewmodel.perfil.PerfilViewModel;
 
 public class PerfilFragment extends Fragment {
 
     private PerfilViewModel notificationsViewModel;
-    private FragmentNotificationsBinding binding;
+    private FragmentPerfilBinding binding;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         notificationsViewModel =
                 new ViewModelProvider(this).get(PerfilViewModel.class);
 
-        binding = FragmentNotificationsBinding.inflate(inflater, container, false);
+        binding = FragmentPerfilBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         final TextView textView = binding.textNotifications;

@@ -15,11 +15,16 @@
         android:id="@+id/navigation_nuevo"
         android:name="com.guidogonzalez.eventos.ui.nuevoevento.NuevoEventoFragment"
         android:label="@string/titulo_nuevo"
-        tools:layout="@layout/fragment_dashboard" />
+        tools:layout="@layout/fragment_nuevo_evento" >
+        <action
+            android:id="@+id/action_navigation_nuevo_to_navigation_home"
+            app:destination="@id/navigation_home" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_perfil"
         android:name="com.guidogonzalez.eventos.ui.perfil.PerfilFragment"
         android:label="@string/titulo_perfil"
-        tools:layout="@layout/fragment_notifications" />
+        tools:layout="@layout/fragment_perfil" />
+
 </navigation>

@@ -1,5 +1,6 @@
 package com.guidogonzalez.eventos.adapter;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.guidogonzalez.eventos.databinding.ItemViewEventoBinding;
 import com.guidogonzalez.eventos.model.Evento;
+import com.guidogonzalez.eventos.utils.Utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventosViewHolder> {
@@ -40,7 +43,9 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventosV
 
         String nombre = listaEventos.get(position).nombre;
         String descripcion = listaEventos.get(position).descripcion;
+        List<String> fotoEvento = Arrays.asList(listaEventos.get(position).fotos.split(","));
 
+        Utils.aplicarImagen(holder.itemView.ivFotoEvento.getContext(), Utils.URL_BASE_IMAGEN + fotoEvento.get(0), holder.itemView.ivFotoEvento);
         holder.itemView.tvNombreEvento.setText(nombre);
         holder.itemView.tvDescripcionEvento.setText(descripcion);
     }
