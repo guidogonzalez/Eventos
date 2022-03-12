@@ -1,7 +1,24 @@
 <resources>
     <string name="app_name">Eventos</string>
     <string name="titulo_eventos">Eventos</string>
-    <string name="titulo_nuevo">Nuevo</string>
+    <string name="titulo_nuevo">Nuevo Evento</string>
     <string name="titulo_perfil">Perfil</string>
     <string name="mensaje_error_cargar">Ha ocurrido un error a la hora de cargar los eventos.</string>
+    <string name="mensaje_error_nuevo_evento">Ha ocurrido un error al crear un nuevo evento.</string>
+    <string name="mensaje_exito_nuevo_evento">El evento ha sido creado con éxito!</string>
+    <string name="mensaje_nombre_campo_obligatorio">El nombre es un campo obligatorio.</string>
+    <string name="mensaje_descripcion_campo_obligatorio">La descripcion es un campo obligatorio.</string>
+    <string name="mensaje_fecha_campo_obligatorio">La fecha del evento es un campo obligatorio.</string>
+    <string name="mensaje_precio_campo_obligatorio">El precio es un campo obligatorio.</string>
+    <string name="mensaje_fotos_campo_obligatorio">Es obligatorio subir mínimo una foto.</string>
+
+    <string name="mensaje_contrasena_campo_obligatorio">La contraseña es un campo obligatorio.</string>
+    <string name="mensaje_email_campo_obligatorio">El email es un campo obligatorio.</string>
+    <string name="mensaje_login_exito">Conectado correctamente!</string>
+    <string name="mensaje_login_error">Ha ocurrido un error al conectarse.</string>
+    <string name="mensaje_apellidos_campo_obligatorio">Los apellidos es un campo obligatorio.</string>
+    <string name="mensaje_contrasenas_error">Las contraseñas deben de coincidir.</string>
+    <string name="mensaje_registro_exito">Registrado correctamente!</string>
+    <string name="mensaje_registro_error">Ha ocurrido un error al registrarse.</string>
+    <string name="mensaje_fecha_nacimiento_obligatorio">La fecha de nacimiento es un campo obligatoria.</string>
 </resources>

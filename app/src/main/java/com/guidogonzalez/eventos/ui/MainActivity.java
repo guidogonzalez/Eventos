@@ -1,12 +1,11 @@
 package com.guidogonzalez.eventos.ui;
 
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.guidogonzalez.eventos.R;
@@ -24,19 +23,29 @@ public class MainActivity extends AppCompatActivity {
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_nuevo, R.id.navigation_perfil)
-                .build();
-
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment_activity_main);
-        NavController navController = navHostFragment.getNavController();
+        navController = navHostFragment.getNavController();
 
-        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(binding.navView, navController);
+
+        observarNavController();
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        return NavigationUI.navigateUp(navController, (DrawerLayout) null);
+    private void observarNavController() {
+        navController.addOnDestinationChangedListener((navController, navDestination, bundle) -> {
+
+            switch (navDestination.getId()) {
+
+                case R.id.loginFragment:
+                case R.id.registroFragment:
+                    binding.navView.setVisibility(View.GONE);
+                    break;
+
+                default:
+                    binding.navView.setVisibility(View.VISIBLE);
+                    break;
+            }
+        });
     }
+
 }

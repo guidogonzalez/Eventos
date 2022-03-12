@@ -12,6 +12,7 @@ public class Usuario {
     public String foto;
     public String contrasena;
 
+    public Usuario() { }
     public Usuario(String _id, String nombre, String apellidos, String email, Date fechaNacimiento, String foto, String contrasena) {
         this._id = _id;
         this.nombre = nombre;

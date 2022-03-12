@@ -3,6 +3,9 @@ package com.guidogonzalez.eventos.utils;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -15,7 +18,9 @@ import androidx.cardview.widget.CardView;
 import com.bumptech.glide.Glide;
 import com.guidogonzalez.eventos.R;
 
-import java.text.ParseException;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -30,10 +35,21 @@ public class Utils {
         Date date = new Date();
         try {
             date = sdf.parse(sFecha);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
+        } catch (Exception e) { }
         return date;
+    }
+
+    public static String transformarDateBd(Date date) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        String fechaMostrar = "";
+        try {
+            fechaMostrar = sdf.format(date.getTime());
+        } catch (Exception e) {
+
+        }
+
+        return fechaMostrar;
     }
 
     // Para mostrar los dialogs de seleccionar fecha y hora
@@ -58,6 +74,29 @@ public class Utils {
                 editText.setText(sFechaMostrar);
 
             }, currentDate.get(Calendar.HOUR_OF_DAY), currentDate.get(Calendar.MINUTE), false).show();
+        }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
+
+        return sFechaGuardar[0];
+    }
+
+    // Para mostrar el dialog de seleccionar fecha
+    public static String showDatePicker(Context context, EditText editText) {
+
+        final Calendar currentDate = Calendar.getInstance();
+        Calendar date = Calendar.getInstance();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+        SimpleDateFormat fechaMostrar = new SimpleDateFormat("dd-MMM-yyyy");
+
+        // Lo obliga Android ni idea de como solucionarlo para evitar el Array
+        final String[] sFechaGuardar = {dateFormat.format(date.getTime())};
+
+        new DatePickerDialog(context, (view, year, monthOfYear, dayOfMonth) -> {
+            date.set(year, monthOfYear, dayOfMonth);
+            sFechaGuardar[0] = dateFormat.format(date.getTime());
+            Log.d("FECHAGUARDAR", sFechaGuardar[0]);
+            String sFechaMostrar = fechaMostrar.format(date.getTime());
+            editText.setText(sFechaMostrar);
+
         }, currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
 
         return sFechaGuardar[0];
@@ -106,10 +145,40 @@ public class Utils {
         toast.show();
     }
 
+    // Aplicar imagen con Glide
     public static void aplicarImagen(Context context, String url, ImageView imageView) {
         Glide.with(context)
                 .load(url)
                 .centerCrop()
                 .into(imageView);
+    }
+
+    // Workaround: pasamos Bitmap a File guardandolo en el dispositivo por problemas de acceso al storage
+    public static File bitmapToFile(Bitmap bitmap) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+        Calendar date = Calendar.getInstance();
+        String nombreArchivo = sdf.format(date.getTime());
+        // Creamos el File para escribir los datos del Bitmap
+        File file = null;
+        try {
+            file = new File(Environment.getExternalStorageDirectory() + File.separator + nombreArchivo + ".jpeg");
+            file.createNewFile();
+
+            // Convertimos el Bitmap a Byte Array
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+            // Escribimos los bytes en File
+            FileOutputStream fos = new FileOutputStream(file);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+            return file;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return file;
+        }
     }
 }

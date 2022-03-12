@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -8,102 +7,92 @@
     android:padding="16dp"
     tools:context=".ui.nuevoevento.NuevoEventoFragment">
 
-    <EditText
-        android:id="@+id/etNombreEvento"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="Nombre evento"
-        android:inputType="text"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:hint="Nombre evento">
 
-    <EditText
-        android:id="@+id/etDescripcionEvento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1"
-        android:ems="10"
-        android:hint="Descripcion evento"
-        android:inputType="textEmailAddress"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/etNombreEvento"
-        app:layout_constraintStart_toStartOf="@+id/etNombreEvento"
-        app:layout_constraintTop_toBottomOf="@+id/etNombreEvento" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etNombreEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
 
-    <EditText
-        android:id="@+id/etFechaEvento"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:clickable="true"
-        android:ems="10"
-        android:focusable="false"
-        android:hint="Fecha evento"
-        android:inputType="date"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/etNombreEvento"
-        app:layout_constraintStart_toStartOf="@+id/etNombreEvento"
-        app:layout_constraintTop_toBottomOf="@+id/etDescripcionEvento" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <EditText
-        android:id="@+id/etPrecioEvento"
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="number"
-        android:minHeight="48dp"
-        app:layout_constraintEnd_toEndOf="@+id/etNombreEvento"
-        app:layout_constraintStart_toStartOf="@+id/etNombreEvento"
-        app:layout_constraintTop_toBottomOf="@+id/etFechaEvento"
-        tools:ignore="SpeakableTextPresentCheck" />
+        android:hint="Descripción evento">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etDescripcionEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha evento">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etFechaEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="false"
+            android:inputType="date" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Precio evento">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etPrecioEvento"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/btnSubirFotosEvento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Subir fotos"
-        app:layout_constraintEnd_toEndOf="@+id/etNombreEvento"
-        app:layout_constraintStart_toStartOf="@+id/etNombreEvento"
-        app:layout_constraintTop_toBottomOf="@+id/etPrecioEvento" />
+        android:layout_marginTop="8dp"
+        android:text="Subir fotos" />
 
     <Button
         android:id="@+id/btnGuardarEvento"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar"
-        app:layout_constraintEnd_toEndOf="@+id/etNombreEvento"
-        app:layout_constraintStart_toStartOf="@+id/etNombreEvento"
-        app:layout_constraintTop_toBottomOf="@+id/btnSubirFotosEvento" />
+        android:layout_marginTop="8dp"
+        android:text="Guardar" />
 
     <ProgressBar
         android:id="@+id/pbGuardarEvento"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:visibility="gone" />
 
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnGuardarEvento"
-        tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck">
+        android:layout_marginBottom="16dp">
 
         <LinearLayout
             android:id="@+id/llFotosEvento"
@@ -115,4 +104,4 @@
 
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

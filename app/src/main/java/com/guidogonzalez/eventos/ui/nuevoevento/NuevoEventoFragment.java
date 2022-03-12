@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,9 +27,7 @@ import com.guidogonzalez.eventos.model.Evento;
 import com.guidogonzalez.eventos.utils.Utils;
 import com.guidogonzalez.eventos.viewmodel.nuevoevento.NuevoEventoViewModel;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -41,10 +38,8 @@ public class NuevoEventoFragment extends Fragment {
     private NuevoEventoViewModel nuevoEventoViewModel;
     private FragmentNuevoEventoBinding binding;
     private String sFechaGuardar = "";
-    private static final int IMG_REQUEST = -1;
     private Bitmap imageBitmap;
     private Uri path;
-    private ActivityResultLauncher<String> activityResultLauncher;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -63,7 +58,9 @@ public class NuevoEventoFragment extends Fragment {
         // Cuando hagamos click en el EditText de Fecha evento se nos abrirá el DatetimePicker
         binding.etFechaEvento.setOnClickListener(v -> sFechaGuardar = Utils.showDateTimePicker(getContext(), binding.etFechaEvento));
 
+        // Cuando hagamos click en el botón de Subir fotos, se nos abrirá la galería para seleccionar las fotos
         binding.btnSubirFotosEvento.setOnClickListener(v -> seleccionarImagen());
+
         binding.btnGuardarEvento.setOnClickListener(v -> {
 
             String nombre = binding.etNombreEvento.getText().toString().trim();
@@ -72,69 +69,72 @@ public class NuevoEventoFragment extends Fragment {
             String precio = binding.etPrecioEvento.getText().toString().trim();
 
             // Validamos que no están vacíos los campos
-            validarDatos(nombre, descripcion, fechaEvento, binding.llFotosEvento.getChildCount(), precio);
+            if (!validarDatos(nombre, descripcion, fechaEvento, binding.llFotosEvento.getChildCount(), precio)) {
+                // Creamos File para subir la foto
+                File file = Utils.bitmapToFile(imageBitmap);
 
-            File file = bitmapToFile(imageBitmap, "temp.jpg");
+                // Creamos el Body para meterlo en la creación del Evento
+                RequestBody reqFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
+                MultipartBody.Part uploads = MultipartBody.Part.createFormData("fotos", file.getName(), reqFile);
 
-            RequestBody reqFile = RequestBody.create(MediaType.parse("image/jpeg"), file);
-            MultipartBody.Part uploads = MultipartBody.Part.createFormData("fotos", file.getName(), reqFile);
+                RequestBody rbNombre = RequestBody.create(MediaType.parse("multipart/form-data"), nombre);
+                RequestBody rbDescripcion = RequestBody.create(MediaType.parse("multipart/form-data"), descripcion);
+                RequestBody rbFechaGuardar = RequestBody.create(MediaType.parse("multipart/form-data"), sFechaGuardar);
+                RequestBody rbPrecio = RequestBody.create(MediaType.parse("multipart/form-data"), precio);
+                RequestBody rbIdCreador = RequestBody.create(MediaType.parse("multipart/form-data"), "idCreador");
 
-            RequestBody rbNombre = RequestBody.create(MediaType.parse("multipart/form-data"), nombre);
-            RequestBody rbDescripcion = RequestBody.create(MediaType.parse("multipart/form-data"), descripcion);
-            RequestBody rbFechaGuardar = RequestBody.create(MediaType.parse("multipart/form-data"), sFechaGuardar);
-            RequestBody rbPrecio = RequestBody.create(MediaType.parse("multipart/form-data"), precio);
-            RequestBody rbIdCreador = RequestBody.create(MediaType.parse("multipart/form-data"), "idCreador");
-
-            // Llamamos al viewmodel para crear el nuevo evento
-            nuevoEventoViewModel.crearEvento(
-                    rbNombre,
-                    rbDescripcion,
-                    rbFechaGuardar,
-                    uploads,
-                    rbPrecio,
-                    rbIdCreador);
+                // Llamamos al viewmodel para crear el nuevo evento
+                nuevoEventoViewModel.crearEvento(
+                        rbNombre,
+                        rbDescripcion,
+                        rbFechaGuardar,
+                        uploads,
+                        rbPrecio,
+                        rbIdCreador);
+            }
         });
 
         // Observamos el Viewmodel para comprobar que se ha creado el evento
-        observarViewModel(view);
+        observarViewModel();
     }
 
-
-    private void validarDatos(String nombre, String descripcion, String fechaEvento, Integer fotos, String precio) {
+    private Boolean validarDatos(String nombre, String descripcion, String fechaEvento, Integer fotos, String precio) {
 
         if (nombre.isEmpty()) {
-            Utils.notificarInfo(getContext(), "El nombre es un campo obligatorio.");
-            return;
+            Utils.notificarInfo(getContext(), getString(R.string.mensaje_nombre_campo_obligatorio));
+            return true;
         }
 
         if (descripcion.isEmpty()) {
-            Utils.notificarInfo(getContext(), "La descripcion es un campo obligatorio.");
-            return;
+            Utils.notificarInfo(getContext(), getString(R.string.mensaje_descripcion_campo_obligatorio));
+            return true;
         }
 
         if (fechaEvento.isEmpty()) {
-            Utils.notificarInfo(getContext(), "La fecha del evento es un campo obligatorio.");
-            return;
+            Utils.notificarInfo(getContext(), getString(R.string.mensaje_fecha_campo_obligatorio));
+            return true;
         }
 
         if (precio.isEmpty()) {
-            Utils.notificarInfo(getContext(), "El precio es un campo obligatorio.");
-            return;
+            Utils.notificarInfo(getContext(), getString(R.string.mensaje_precio_campo_obligatorio));
+            return true;
         }
 
         if (fotos == 0) {
-            Utils.notificarInfo(getContext(), "Es obligatorio subir mínimo una foto.");
-            return;
+            Utils.notificarInfo(getContext(), getString(R.string.mensaje_fotos_campo_obligatorio));
+            return true;
         }
+
+        return false;
     }
 
-    private void observarViewModel(View view) {
+    private void observarViewModel() {
 
-        nuevoEventoViewModel.mldEvento.observe(getViewLifecycleOwner(), eventos -> {
+        nuevoEventoViewModel.mldEvento.observe(getViewLifecycleOwner(), evento -> {
 
-            if (eventos != null && eventos instanceof Evento) {
-                Utils.notificarExito(getContext(), "El evento ha sido creado con éxito");
-                Navigation.findNavController(view).navigate(R.id.action_navigation_nuevo_to_navigation_home);
+            if (evento != null && evento instanceof Evento) {
+                Utils.notificarExito(getContext(), getString(R.string.mensaje_exito_nuevo_evento));
+                Navigation.findNavController(getView()).navigate(R.id.action_navigation_nuevo_to_navigation_home);
             }
         });
 
@@ -143,7 +143,7 @@ public class NuevoEventoFragment extends Fragment {
             if (esError != null && esError instanceof Boolean) {
 
                 if (esError) {
-                    Utils.notificarError(getContext(), "Ha ocurrido un error al crear el nuevo evento.");
+                    Utils.notificarError(getContext(), getString(R.string.mensaje_error_nuevo_evento));
                 }
             }
         });
@@ -188,31 +188,6 @@ public class NuevoEventoFragment extends Fragment {
                 }
             }
     );
-
-    public static File bitmapToFile(Bitmap bitmap, String fileNameToSave) { // File name like "image.png"
-
-        // Creamos el File para escribir los datos del Bitmap
-        File file = null;
-        try {
-            file = new File(Environment.getExternalStorageDirectory() + File.separator + fileNameToSave);
-            file.createNewFile();
-
-            // Convertimos el Bitmap a Byte Array
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.PNG, 0, bos); // YOU can also save it in JPEG
-            byte[] bitmapdata = bos.toByteArray();
-
-            // Escribimos los bytes en File
-            FileOutputStream fos = new FileOutputStream(file);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-            return file;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return file;
-        }
-    }
 
     @Override
     public void onDestroyView() {

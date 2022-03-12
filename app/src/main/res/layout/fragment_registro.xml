@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context=".ui.perfil.PerfilFragment">
+    tools:context=".ui.auth.RegistroFragment">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/civFotoUsuario"
@@ -104,18 +104,11 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
-        android:id="@+id/btnActualizarUsuario"
+        android:id="@+id/btnRegistrarUsuario"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Actualizar" />
-
-    <Button
-        android:id="@+id/btnCerrarSesion"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Cerrar sesión" />
+        android:text="Registrar" />
 
     <ProgressBar
         android:id="@+id/pbRegistro"
