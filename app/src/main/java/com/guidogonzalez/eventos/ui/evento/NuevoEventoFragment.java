@@ -1,4 +1,4 @@
-package com.guidogonzalez.eventos.ui.nuevoevento;
+package com.guidogonzalez.eventos.ui.evento;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -25,7 +25,7 @@ import com.guidogonzalez.eventos.R;
 import com.guidogonzalez.eventos.databinding.FragmentNuevoEventoBinding;
 import com.guidogonzalez.eventos.model.Evento;
 import com.guidogonzalez.eventos.utils.Utils;
-import com.guidogonzalez.eventos.viewmodel.nuevoevento.NuevoEventoViewModel;
+import com.guidogonzalez.eventos.viewmodel.evento.NuevoEventoViewModel;
 
 import java.io.File;
 
@@ -85,6 +85,7 @@ public class NuevoEventoFragment extends Fragment {
 
                 // Llamamos al viewmodel para crear el nuevo evento
                 nuevoEventoViewModel.crearEvento(
+                        Utils.obtenerValorSharedPreferences(getContext(), "token"),
                         rbNombre,
                         rbDescripcion,
                         rbFechaGuardar,

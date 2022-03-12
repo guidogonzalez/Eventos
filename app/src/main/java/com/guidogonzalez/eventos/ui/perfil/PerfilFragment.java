@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,7 +41,6 @@ public class PerfilFragment extends Fragment {
     private String sFechaGuardar = "";
     private Bitmap imageBitmap;
     private Uri path;
-    private Usuario datosConsultadosUsuario = new Usuario();
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -58,7 +56,7 @@ public class PerfilFragment extends Fragment {
 
         perfilViewModel = new ViewModelProvider(this).get(PerfilViewModel.class);
 
-        perfilViewModel.consultarUsuario("622bc2189e77135a42de7dcb");
+        perfilViewModel.consultarUsuario(Utils.obtenerValorSharedPreferences(getContext(), "idUsuario"));
 
         // Cuando hagamos click en el EditText de Fecha evento se nos abrirá el DatePicker
         // Por cuestiones que desconozco no cogía la fecha correctamente llamando al método de Utils, por lo tanto he de crear otra vez el DatePicker
@@ -79,7 +77,6 @@ public class PerfilFragment extends Fragment {
             }), currentDate.get(Calendar.YEAR), currentDate.get(Calendar.MONTH), currentDate.get(Calendar.DATE)).show();
         });
 
-
         // Cuando hagamos click en la foto, se nos abrirá la galería para seleccionar las fotos
         binding.civFotoUsuario.setOnClickListener(v -> seleccionarImagen());
 
@@ -95,9 +92,7 @@ public class PerfilFragment extends Fragment {
             // Validamos que no están vacíos los campos y las contraseñas son iguales
             if (!validarDatos(nombre, apellidos, email, fechaNacimiento, contrasena, confirmarContrasena)) {
 
-                Log.d("FECHA", sFechaGuardar);
-
-                // Creamos File para subir la foto, no enviamos nada
+                // Creamos File para subir la foto, envíamos null en caso contrario
                 MultipartBody.Part uploads = null;
                 // Comprobamos que hemos subido una imagen para meterla en el Body
                 if (imageBitmap != null) {
@@ -117,7 +112,8 @@ public class PerfilFragment extends Fragment {
 
                 // Llamamos al viewmodel para actualizar el usuario
                 perfilViewModel.actualizarUsuario(
-                        "622bc2189e77135a42de7dcb",
+                        Utils.obtenerValorSharedPreferences(getContext(), "token"),
+                        Utils.obtenerValorSharedPreferences(getContext(), "idUsuario"),
                         rbNombre,
                         rbApellidos,
                         rbEmail,
@@ -127,10 +123,10 @@ public class PerfilFragment extends Fragment {
             }
         });
 
-        observarConsultaUsuario();
+        observarViewModel();
     }
 
-    private void observarConsultaUsuario() {
+    private void observarViewModel() {
 
         // Consulta de perfil
         perfilViewModel.mldConsultarUsuarioResponse.observe(getViewLifecycleOwner(), usuario -> {
@@ -150,7 +146,7 @@ public class PerfilFragment extends Fragment {
             if (esError != null && esError instanceof Boolean) {
 
                 if (esError) {
-                    Utils.notificarError(getContext(), getString(R.string.mensaje_registro_error));
+                    Utils.notificarError(getContext(), getString(R.string.mensaje_consultar_usuario_error));
                 }
             }
         });
@@ -162,14 +158,16 @@ public class PerfilFragment extends Fragment {
             }
         });
 
-        // Actualizado de perfil
+        // Actualizar perfil
         perfilViewModel.mldActualizarResponse.observe(getViewLifecycleOwner(), usuario -> {
 
             if (usuario != null && usuario instanceof Usuario) {
-
                 binding.civFotoUsuario.setEnabled(false);
-                binding.btnActualizarUsuario.setEnabled(false);
-                Utils.notificarExito(getContext(), "Perfil actualizado correctamente.");
+                binding.btnActualizarUsuario.setEnabled(true);
+                Utils.notificarExito(getContext(), getString(R.string.mensaje_actualizar_perfil_exito));
+
+                // Actualizamos los datos guardados en el dispositivo
+                Utils.guardarDatosLogin(getContext(), usuario);
             }
         });
 
@@ -178,7 +176,8 @@ public class PerfilFragment extends Fragment {
             if (esError != null && esError instanceof Boolean) {
 
                 if (esError) {
-                    Utils.notificarError(getContext(), "Ha ocurrido un error al actualizar el perfil.");
+                    binding.btnActualizarUsuario.setEnabled(false);
+                    Utils.notificarError(getContext(), getString(R.string.mensaje_actualizar_perfil_error));
                 }
             }
         });
@@ -186,6 +185,7 @@ public class PerfilFragment extends Fragment {
         perfilViewModel.bActualizarCargando.observe(getViewLifecycleOwner(), estaCargando -> {
 
             if (estaCargando != null && estaCargando instanceof Boolean) {
+                binding.btnActualizarUsuario.setEnabled(false);
                 binding.pbRegistro.setVisibility(estaCargando ? View.VISIBLE : View.GONE);
             }
         });

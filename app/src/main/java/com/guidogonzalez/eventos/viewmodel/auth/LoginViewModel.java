@@ -7,7 +7,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.guidogonzalez.eventos.api.ApiService;
-import com.guidogonzalez.eventos.model.LoginResponse;
+import com.guidogonzalez.eventos.model.Usuario;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -16,7 +16,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class LoginViewModel extends AndroidViewModel {
 
-    public MutableLiveData<LoginResponse> mldLoginResponse = new MutableLiveData<>();
+    public MutableLiveData<Usuario> mldLoginResponse = new MutableLiveData<>();
     public MutableLiveData<Boolean> bLoginError = new MutableLiveData<>();
     public MutableLiveData<Boolean> bLoginCargar = new MutableLiveData<>();
 
@@ -35,10 +35,10 @@ public class LoginViewModel extends AndroidViewModel {
                 apiService.login(email, contrasena)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(new DisposableSingleObserver<LoginResponse>() {
+                        .subscribeWith(new DisposableSingleObserver<Usuario>() {
 
                             @Override
-                            public void onSuccess(LoginResponse loginResponse) {
+                            public void onSuccess(Usuario loginResponse) {
                                 loginRecibido(loginResponse);
                             }
 
@@ -52,7 +52,7 @@ public class LoginViewModel extends AndroidViewModel {
         );
     }
 
-    private void loginRecibido(LoginResponse loginResponse) {
+    private void loginRecibido(Usuario loginResponse) {
         mldLoginResponse.setValue(loginResponse);
         bLoginError.setValue(false);
         bLoginCargar.setValue(false);

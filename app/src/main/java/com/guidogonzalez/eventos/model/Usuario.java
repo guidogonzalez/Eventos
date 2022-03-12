@@ -11,9 +11,9 @@ public class Usuario {
     public Date fechaNacimiento;
     public String foto;
     public String contrasena;
+    public String token;
 
-    public Usuario() { }
-    public Usuario(String _id, String nombre, String apellidos, String email, Date fechaNacimiento, String foto, String contrasena) {
+    public Usuario(String _id, String nombre, String apellidos, String email, Date fechaNacimiento, String foto, String contrasena, String token) {
         this._id = _id;
         this.nombre = nombre;
         this.apellidos = apellidos;
@@ -21,5 +21,6 @@ public class Usuario {
         this.fechaNacimiento = fechaNacimiento;
         this.foto = foto;
         this.contrasena = contrasena;
+        this.token = token;
     }
 }

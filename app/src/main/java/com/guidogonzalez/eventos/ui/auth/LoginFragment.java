@@ -13,7 +13,7 @@ import androidx.navigation.Navigation;
 
 import com.guidogonzalez.eventos.R;
 import com.guidogonzalez.eventos.databinding.FragmentLoginBinding;
-import com.guidogonzalez.eventos.model.LoginResponse;
+import com.guidogonzalez.eventos.model.Usuario;
 import com.guidogonzalez.eventos.utils.Utils;
 import com.guidogonzalez.eventos.viewmodel.auth.LoginViewModel;
 
@@ -34,6 +34,14 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        if (!Utils.obtenerValorSharedPreferences(getContext(), "token").isEmpty()) {
+            Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_navigation_home);
+        }
+
+        if (!Utils.obtenerValorSharedPreferences(getContext(), "email").isEmpty()) {
+            binding.etLoginEmail.setText(Utils.obtenerValorSharedPreferences(getContext(), "email"));
+        }
 
         loginViewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
@@ -56,10 +64,13 @@ public class LoginFragment extends Fragment {
 
         loginViewModel.mldLoginResponse.observe(getViewLifecycleOwner(), loginResponse -> {
 
-            if (loginResponse != null && loginResponse instanceof LoginResponse) {
+            if (loginResponse != null && loginResponse instanceof Usuario) {
                 Utils.notificarExito(getContext(), getString(R.string.mensaje_login_exito));
                 Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_navigation_home);
                 binding.btnLogin.setEnabled(false);
+
+                Utils.guardarDatosLogin(getContext(), loginResponse);
+                loginViewModel.mldLoginResponse.removeObservers(this);
             }
         });
 

@@ -8,6 +8,7 @@ import androidx.lifecycle.MutableLiveData;
 
 import com.guidogonzalez.eventos.api.ApiService;
 import com.guidogonzalez.eventos.model.Usuario;
+import com.guidogonzalez.eventos.utils.Utils;
 
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
@@ -39,7 +40,7 @@ public class PerfilViewModel extends AndroidViewModel {
 
         // Cuando obtenemos los datos de la API, no queremos hacerlo en el hilo principal de la aplicación para no bloquearla
         compositeDisposable.add(
-                apiService.consultarUsuario(idUsuario)
+                apiService.consultarUsuario(Utils.obtenerValorSharedPreferences(getApplication(), "token"), idUsuario)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<Usuario>() {
@@ -59,7 +60,8 @@ public class PerfilViewModel extends AndroidViewModel {
         );
     }
 
-    public void actualizarUsuario(String idUsuario,
+    public void actualizarUsuario(String bearer,
+                                  String idUsuario,
                                   RequestBody nombre,
                                   RequestBody apellidos,
                                   RequestBody email,
@@ -71,7 +73,7 @@ public class PerfilViewModel extends AndroidViewModel {
 
         // Cuando obtenemos los datos de la API, no queremos hacerlo en el hilo principal de la aplicación para no bloquearla
         compositeDisposable.add(
-                apiService.actualizarUsuario(idUsuario, nombre, apellidos, email, fechaNacimiento, foto, contrasena)
+                apiService.actualizarUsuario(bearer, idUsuario, nombre, apellidos, email, fechaNacimiento, foto, contrasena)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<Usuario>() {

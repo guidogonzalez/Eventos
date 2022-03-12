@@ -21,4 +21,12 @@
     <string name="mensaje_registro_exito">Registrado correctamente!</string>
     <string name="mensaje_registro_error">Ha ocurrido un error al registrarse.</string>
     <string name="mensaje_fecha_nacimiento_obligatorio">La fecha de nacimiento es un campo obligatoria.</string>
+    <string name="mensaje_actualizar_perfil_error">Ha ocurrido un error al actualizar el perfil.</string>
+    <string name="mensaje_actualizar_perfil_exito">Perfil actualizado correctamente.</string>
+    <string name="mensaje_consultar_usuario_error">Ha ocurrido un error al obtener el perfil del usuario.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="mensaje_actualizar_evento_error">Ha ocurrido un error al actualizar el evento.</string>
+    <string name="mensaje_actualizar_evento_exito">Evento actualizado correctamente.</string>
+    <string name="mensaje_consultar_evento_error">Ha ocurrido un error al consultar el evento.</string>
 </resources>

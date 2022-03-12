@@ -2,18 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
+        android:id="@+id/listaEventosFragment"
+        android:icon="@drawable/ic_dashboard_black_24dp"
         android:title="@string/titulo_eventos" />
 
     <item
-        android:id="@+id/navigation_nuevo"
-        android:icon="@drawable/ic_dashboard_black_24dp"
+        android:id="@+id/nuevoEventoFragment"
+        android:icon="@drawable/ic_baseline_add_box_24"
         android:title="@string/titulo_nuevo" />
 
     <item
-        android:id="@+id/navigation_perfil"
-        android:icon="@drawable/ic_notifications_black_24dp"
+        android:id="@+id/perfilFragment"
+        android:icon="@drawable/ic_baseline_person_24"
         android:title="@string/titulo_perfil" />
 
 </menu>

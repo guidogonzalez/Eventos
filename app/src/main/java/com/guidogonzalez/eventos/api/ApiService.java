@@ -1,7 +1,6 @@
 package com.guidogonzalez.eventos.api;
 
 import com.guidogonzalez.eventos.model.Evento;
-import com.guidogonzalez.eventos.model.LoginResponse;
 import com.guidogonzalez.eventos.model.Usuario;
 import com.guidogonzalez.eventos.utils.Utils;
 
@@ -27,20 +26,42 @@ public class ApiService {
                 .create(Api.class);
     }
 
-    public Single<List<Evento>> getEventos() {
-        return api.getEventos();
+    public Single<List<Evento>> getEventos(String bearer) {
+        return api.getEventos(bearer);
     }
 
-    public Single<Evento> nuevoEvento(RequestBody nombre,
+    public Single<Evento> getEvento(String bearer,
+                                    String id) {
+        return api.getEvento(bearer, id);
+    }
+
+    public Single<Evento> nuevoEvento(String bearer,
+                                      RequestBody nombre,
                                       RequestBody descripcion,
                                       RequestBody fechaEvento,
                                       MultipartBody.Part fotos,
                                       RequestBody precio,
                                       RequestBody idCreador) {
-        return api.nuevoEvento(nombre, descripcion, fechaEvento, fotos, precio, idCreador);
+        return api.nuevoEvento(bearer, nombre, descripcion, fechaEvento, fotos, precio, idCreador);
     }
 
-    public Single<LoginResponse> login(String email, String contrasena) {
+    public Single<Evento> actualizarEvento(String bearer,
+                                           String idEvento,
+                                           RequestBody nombre,
+                                           RequestBody descripcion,
+                                           RequestBody fechaEvento,
+                                           MultipartBody.Part fotos,
+                                           RequestBody precio,
+                                           RequestBody fotoCreador,
+                                           RequestBody nombreCreador) {
+        return api.actualizarEvento(bearer, idEvento, nombre, descripcion, fechaEvento, fotos, precio, fotoCreador, nombreCreador);
+    }
+
+    public Single<Evento> eliminarEvento(String bearer, String id) {
+        return api.eliminarEvento(bearer, id);
+    }
+
+    public Single<Usuario> login(String email, String contrasena) {
         return api.login(email, contrasena);
     }
 
@@ -54,17 +75,18 @@ public class ApiService {
     }
 
 
-    public Single<Usuario> consultarUsuario(String idUsuario) {
-        return api.consultarUsuario(idUsuario);
+    public Single<Usuario> consultarUsuario(String bearer, String idUsuario) {
+        return api.consultarUsuario(bearer, idUsuario);
     }
 
-    public Single<Usuario> actualizarUsuario(String idUsuario,
+    public Single<Usuario> actualizarUsuario(String bearer,
+                                             String idUsuario,
                                              RequestBody nombre,
                                              RequestBody apellidos,
                                              RequestBody email,
                                              RequestBody fechaNacimiento,
                                              MultipartBody.Part foto,
                                              RequestBody contrasena) {
-        return api.actualizarUsuario(idUsuario, nombre, apellidos, email, fechaNacimiento, foto, contrasena);
+        return api.actualizarUsuario(bearer, idUsuario, nombre, apellidos, email, fechaNacimiento, foto, contrasena);
     }
 }

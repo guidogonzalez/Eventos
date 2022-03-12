@@ -1,8 +1,11 @@
 package com.guidogonzalez.eventos.utils;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Environment;
 import android.util.Log;
@@ -17,6 +20,7 @@ import androidx.cardview.widget.CardView;
 
 import com.bumptech.glide.Glide;
 import com.guidogonzalez.eventos.R;
+import com.guidogonzalez.eventos.model.Usuario;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -24,6 +28,7 @@ import java.io.FileOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 public class Utils {
 
@@ -35,13 +40,27 @@ public class Utils {
         Date date = new Date();
         try {
             date = sdf.parse(sFecha);
-        } catch (Exception e) { }
+        } catch (Exception e) {
+        }
         return date;
     }
 
     public static String transformarDateBd(Date date) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+        String fechaMostrar = "";
+        try {
+            fechaMostrar = sdf.format(date.getTime());
+        } catch (Exception e) {
+
+        }
+
+        return fechaMostrar;
+    }
+
+    public static String transformarDatetimeBd(Date date) {
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy HH:mm");
         String fechaMostrar = "";
         try {
             fechaMostrar = sdf.format(date.getTime());
@@ -167,7 +186,7 @@ public class Utils {
 
             // Convertimos el Bitmap a Byte Array
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 0, bos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
             byte[] bitmapdata = bos.toByteArray();
 
             // Escribimos los bytes en File
@@ -180,5 +199,32 @@ public class Utils {
             e.printStackTrace();
             return file;
         }
+    }
+
+    public static void guardarDatosLogin(Context context, Usuario usuario) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Login", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        myEdit.putString("idUsuario", usuario._id);
+        myEdit.putString("email", usuario.email);
+        myEdit.putString("nombre", usuario.nombre);
+        myEdit.putString("foto", usuario.foto);
+        myEdit.putString("token", "Bearer " + usuario.token);
+        myEdit.commit();
+    }
+
+    public static String obtenerValorSharedPreferences(Context context, String sValor) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Login", MODE_PRIVATE);
+        return sharedPreferences.getString(sValor, null);
+    }
+
+    public static void guardarValoresSharedPreferences(Context context, Map<String, String> mapValores) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Login", MODE_PRIVATE);
+        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+
+        for (String valor : mapValores.keySet()) {
+            myEdit.putString(valor, mapValores.get(valor));
+        }
+
+        myEdit.commit();
     }
 }
