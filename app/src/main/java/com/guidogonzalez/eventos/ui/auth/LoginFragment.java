@@ -35,11 +35,11 @@ public class LoginFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        if (!Utils.obtenerValorSharedPreferences(getContext(), "token").isEmpty()) {
-            Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_navigation_home);
+        if (Utils.obtenerValorSharedPreferences(getContext(), "token") != null) {
+            Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homeFragment);
         }
 
-        if (!Utils.obtenerValorSharedPreferences(getContext(), "email").isEmpty()) {
+        if (Utils.obtenerValorSharedPreferences(getContext(), "email") != null) {
             binding.etLoginEmail.setText(Utils.obtenerValorSharedPreferences(getContext(), "email"));
         }
 
@@ -66,7 +66,7 @@ public class LoginFragment extends Fragment {
 
             if (loginResponse != null && loginResponse instanceof Usuario) {
                 Utils.notificarExito(getContext(), getString(R.string.mensaje_login_exito));
-                Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_navigation_home);
+                Navigation.findNavController(getView()).navigate(R.id.action_loginFragment_to_homeFragment);
                 binding.btnLogin.setEnabled(false);
 
                 Utils.guardarDatosLogin(getContext(), loginResponse);

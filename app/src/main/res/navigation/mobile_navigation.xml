@@ -6,15 +6,18 @@
     app:startDestination="@id/loginFragment">
 
     <fragment
-        android:id="@+id/listaEventosFragment"
-        android:name="com.guidogonzalez.eventos.ui.evento.ListaEventosFragment"
+        android:id="@+id/eventosFragment"
+        android:name="com.guidogonzalez.eventos.ui.evento.EventosFragment"
         android:label="@string/titulo_eventos"
-        tools:layout="@layout/fragment_lista_eventos" >
+        tools:layout="@layout/fragment_eventos" >
         <action
             android:id="@+id/action_listaEventosFragment_to_editarEventoFragment"
             app:destination="@id/editarEventoFragment"
-            app:popUpTo="@id/listaEventosFragment"
+            app:popUpTo="@id/eventosFragment"
             app:popUpToInclusive="true" />
+        <action
+            android:id="@+id/action_listaEventosFragment_self"
+            app:destination="@id/eventosFragment" />
     </fragment>
 
     <fragment
@@ -23,26 +26,32 @@
         android:label="@string/titulo_nuevo"
         tools:layout="@layout/fragment_nuevo_evento" >
         <action
-            android:id="@+id/action_navigation_nuevo_to_navigation_home"
-            app:destination="@id/listaEventosFragment" />
+            android:id="@+id/action_nuevoEventoFragment_to_eventosFragment"
+            app:destination="@id/eventosFragment"
+            app:popUpTo="@id/nuevoEventoFragment"
+            app:popUpToInclusive="true" />
     </fragment>
 
     <fragment
         android:id="@+id/perfilFragment"
         android:name="com.guidogonzalez.eventos.ui.perfil.PerfilFragment"
         android:label="@string/titulo_perfil"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_perfil" >
+        <action
+            android:id="@+id/action_perfilFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginFragment"
         android:name="com.guidogonzalez.eventos.ui.auth.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
-            android:id="@+id/action_loginFragment_to_navigation_home"
-            app:destination="@id/listaEventosFragment" />
-        <action
             android:id="@+id/action_loginFragment_to_registroFragment"
             app:destination="@id/registroFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
     </fragment>
     <fragment
         android:id="@+id/registroFragment"
@@ -60,10 +69,15 @@
         tools:layout="@layout/fragment_editar_evento" >
         <action
             android:id="@+id/action_editarEventoFragment_to_listaEventosFragment"
-            app:destination="@id/listaEventosFragment" />
+            app:destination="@id/eventosFragment" />
         <argument
             android:name="idEvento"
             app:argType="string" />
     </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.guidogonzalez.eventos.ui.home.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
 
 </navigation>

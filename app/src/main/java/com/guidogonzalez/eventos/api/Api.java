@@ -5,7 +5,9 @@ import com.guidogonzalez.eventos.model.Usuario;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleObserver;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.http.DELETE;
@@ -31,12 +33,14 @@ public interface Api {
     @Multipart
     @POST("nuevoEvento")
     Single<Evento> nuevoEvento(@Header("Authorization") String bearer,
-                               @Part("nombre") RequestBody nombre,
-                               @Part("descripcion") RequestBody descripcion,
-                               @Part("fechaEvento") RequestBody fechaEvento,
-                               @Part MultipartBody.Part fotos,
-                               @Part("precio") RequestBody precio,
-                               @Part("idCreador") RequestBody idCreador);
+                                       @Part("nombre") RequestBody nombre,
+                                       @Part("descripcion") RequestBody descripcion,
+                                       @Part("fechaEvento") RequestBody fechaEvento,
+                                       @Part MultipartBody.Part fotos,
+                                       @Part("precio") RequestBody precio,
+                                       @Part("idCreador") RequestBody idCreador,
+                                       @Part("fotoCreador") RequestBody fotoCreador,
+                                       @Part("nombreCreador") RequestBody nombreCreador);
 
     @Multipart
     @PUT("eventos/{id}")

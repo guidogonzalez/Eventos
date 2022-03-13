@@ -14,6 +14,7 @@ import com.guidogonzalez.eventos.R;
 import com.guidogonzalez.eventos.databinding.ItemViewEventoBinding;
 import com.guidogonzalez.eventos.model.Evento;
 import com.guidogonzalez.eventos.utils.Utils;
+import com.guidogonzalez.eventos.viewmodel.evento.EventosViewModel;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -25,9 +26,11 @@ import java.util.List;
 public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventosViewHolder> {
 
     private ArrayList<Evento> listaEventos;
+    private EventosViewModel eventosViewModel;
 
-    public EventosAdapter(ArrayList<Evento> listaEventos) {
+    public EventosAdapter(ArrayList<Evento> listaEventos, EventosViewModel eventosViewModel) {
         this.listaEventos = listaEventos;
+        this.eventosViewModel = eventosViewModel;
     }
 
     public void actualizarListaEventos(List<Evento> nuevaListaEventos) {
@@ -48,6 +51,7 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventosV
     @Override
     public void onBindViewHolder(@NonNull EventosViewHolder holder, int position) {
 
+        String idEvento = listaEventos.get(position)._id;
         String nombre = listaEventos.get(position).nombre;
         String descripcion = listaEventos.get(position).descripcion;
         Date fechaEvento = listaEventos.get(position).fechaEvento;
@@ -83,12 +87,14 @@ public class EventosAdapter extends RecyclerView.Adapter<EventosAdapter.EventosV
                         Navigation.findNavController(holder.itemView.ivPopUpMenu).navigate(R.id.action_listaEventosFragment_to_editarEventoFragment, bundle);
                         break;
                     case R.id.menu_eliminar:
+                        eventosViewModel.eliminarEvento(Utils.obtenerValorSharedPreferences(holder.itemView.ivPopUpMenu.getContext(), "token"), idEvento);
+                        Navigation.findNavController(holder.itemView.ivPopUpMenu).navigate(R.id.action_listaEventosFragment_self);
                         break;
                 }
                 return true;
             });
             try {
-                // Para que sea un menú con íconos
+                // Para mostrar el menú con íconos
                 Field[] fields = popupMenu.getClass().getDeclaredFields();
                 for (Field field : fields) {
                     if ("mPopup".equals(field.getName())) {

@@ -11,22 +11,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.guidogonzalez.eventos.adapter.EventosAdapter;
-import com.guidogonzalez.eventos.databinding.FragmentListaEventosBinding;
-import com.guidogonzalez.eventos.viewmodel.evento.ListaEventosViewModel;
+import com.guidogonzalez.eventos.databinding.FragmentEventosBinding;
+import com.guidogonzalez.eventos.viewmodel.evento.EventosViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListaEventosFragment extends Fragment {
+public class EventosFragment extends Fragment {
 
-    private ListaEventosViewModel homeViewModel;
-    private FragmentListaEventosBinding binding;
+    private EventosViewModel eventosViewModel;
+    private FragmentEventosBinding binding;
     private EventosAdapter listaEventosAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        binding = FragmentListaEventosBinding.inflate(inflater, container, false);
+        binding = FragmentEventosBinding.inflate(inflater, container, false);
 
         return binding.getRoot();
     }
@@ -35,10 +35,9 @@ public class ListaEventosFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        listaEventosAdapter = new EventosAdapter(new ArrayList<>());
-
-        homeViewModel = new ViewModelProvider(this).get(ListaEventosViewModel.class);
-        homeViewModel.cargarEventos();
+        eventosViewModel = new ViewModelProvider(this).get(EventosViewModel.class);
+        listaEventosAdapter = new EventosAdapter(new ArrayList<>(), eventosViewModel);
+        eventosViewModel.cargarEventos();
 
         binding.rvEventos.setAdapter(listaEventosAdapter);
 
@@ -47,16 +46,21 @@ public class ListaEventosFragment extends Fragment {
 
     private void observarViewModel() {
 
-        homeViewModel.mldListaEventos.observe(getViewLifecycleOwner(), eventos -> {
+        eventosViewModel.mldListaEventos.observe(getViewLifecycleOwner(), eventos -> {
 
             if (eventos != null && eventos instanceof List) {
 
+                if (eventos.isEmpty()) {
+                    binding.contenedorVacio.setVisibility(View.VISIBLE);
+                } else {
+                    binding.contenedorVacio.setVisibility(View.GONE);
+                }
                 binding.rvEventos.setVisibility(View.VISIBLE);
                 listaEventosAdapter.actualizarListaEventos(eventos);
             }
         });
 
-        homeViewModel.bEventoErrorCargar.observe(getViewLifecycleOwner(), esError -> {
+        eventosViewModel.bEventoErrorCargar.observe(getViewLifecycleOwner(), esError -> {
 
             if (esError != null && esError instanceof Boolean) {
 
@@ -64,7 +68,7 @@ public class ListaEventosFragment extends Fragment {
             }
         });
 
-        homeViewModel.bEventoCargando.observe(getViewLifecycleOwner(), estaCargando -> {
+        eventosViewModel.bEventoCargando.observe(getViewLifecycleOwner(), estaCargando -> {
 
             if (estaCargando != null && estaCargando instanceof Boolean) {
 

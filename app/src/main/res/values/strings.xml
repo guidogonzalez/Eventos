@@ -29,4 +29,6 @@
     <string name="mensaje_actualizar_evento_error">Ha ocurrido un error al actualizar el evento.</string>
     <string name="mensaje_actualizar_evento_exito">Evento actualizado correctamente.</string>
     <string name="mensaje_consultar_evento_error">Ha ocurrido un error al consultar el evento.</string>
+    <string name="mensaje_sesion_cerrada_exito">Sesión cerrada correctamente.</string>
+    <string name="mensaje_informacion_sin_eventos">No hay eventos creados, crea tú primer evento!</string>
 </resources>

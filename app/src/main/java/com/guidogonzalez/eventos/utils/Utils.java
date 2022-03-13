@@ -32,8 +32,10 @@ import java.util.Map;
 
 public class Utils {
 
-    public static final String URL_BASE = "http://192.168.1.134:3000/api/";
-    public static final String URL_BASE_IMAGEN = "http://192.168.1.134:3000/";
+    //public static final String URL_BASE = "http://192.168.1.134:3000/api/";
+    //public static final String URL_BASE_IMAGEN = "http://192.168.1.134:3000/";
+    public static final String URL_BASE = "https://restapieventos.herokuapp.com/api/";
+    public static final String URL_BASE_IMAGEN = "https://restapieventos.herokuapp.com/";
 
     public static Date transformarFecha(String sFecha) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
@@ -203,13 +205,13 @@ public class Utils {
 
     public static void guardarDatosLogin(Context context, Usuario usuario) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Login", MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
-        myEdit.putString("idUsuario", usuario._id);
-        myEdit.putString("email", usuario.email);
-        myEdit.putString("nombre", usuario.nombre);
-        myEdit.putString("foto", usuario.foto);
-        myEdit.putString("token", "Bearer " + usuario.token);
-        myEdit.commit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("idUsuario", usuario._id);
+        editor.putString("email", usuario.email);
+        editor.putString("nombre", usuario.nombre);
+        editor.putString("foto", usuario.foto);
+        editor.putString("token", "Bearer " + usuario.token);
+        editor.commit();
     }
 
     public static String obtenerValorSharedPreferences(Context context, String sValor) {
@@ -219,12 +221,19 @@ public class Utils {
 
     public static void guardarValoresSharedPreferences(Context context, Map<String, String> mapValores) {
         SharedPreferences sharedPreferences = context.getSharedPreferences("Login", MODE_PRIVATE);
-        SharedPreferences.Editor myEdit = sharedPreferences.edit();
+        SharedPreferences.Editor editor = sharedPreferences.edit();
 
         for (String valor : mapValores.keySet()) {
-            myEdit.putString(valor, mapValores.get(valor));
+            editor.putString(valor, mapValores.get(valor));
         }
 
-        myEdit.commit();
+        editor.commit();
+    }
+
+    public static void eliminarValorSharedPreferences(Context context, String sValor) {
+        SharedPreferences sharedPreferences = context.getSharedPreferences("Login", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.remove("token");
+        editor.apply();
     }
 }

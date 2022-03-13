@@ -19,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.navigation.Navigation;
 
 import com.guidogonzalez.eventos.R;
 import com.guidogonzalez.eventos.databinding.FragmentPerfilBinding;
@@ -121,6 +122,12 @@ public class PerfilFragment extends Fragment {
                         uploads,
                         rbContrasena);
             }
+        });
+
+        binding.btnCerrarSesion.setOnClickListener(v -> {
+            Utils.eliminarValorSharedPreferences(getContext(), "token");
+            Navigation.findNavController(v).navigate(R.id.action_perfilFragment_to_loginFragment);
+            Utils.notificarExito(getContext(), getString(R.string.mensaje_sesion_cerrada_exito));
         });
 
         observarViewModel();

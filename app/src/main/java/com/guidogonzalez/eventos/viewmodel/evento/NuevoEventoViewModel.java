@@ -35,13 +35,15 @@ public class NuevoEventoViewModel extends AndroidViewModel {
                             RequestBody fechaEvento,
                             MultipartBody.Part fotos,
                             RequestBody precio,
-                            RequestBody idCreador) {
+                            RequestBody idCreador,
+                            RequestBody fotoCreador,
+                            RequestBody nombreCreador) {
 
         bEventoCargando.setValue(true);
 
         // Cuando obtenemos los datos de la API, no queremos hacerlo en el hilo principal de la aplicación para no bloquearla
         compositeDisposable.add(
-                apiService.nuevoEvento(bearer, nombre, descripcion, fechaEvento, fotos, precio, idCreador)
+                apiService.nuevoEvento(bearer, nombre, descripcion, fechaEvento, fotos, precio, idCreador, fotoCreador, nombreCreador)
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribeWith(new DisposableSingleObserver<Evento>() {

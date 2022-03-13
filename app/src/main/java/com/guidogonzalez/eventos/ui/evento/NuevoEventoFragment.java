@@ -18,6 +18,9 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.Navigation;
 
@@ -53,7 +56,9 @@ public class NuevoEventoFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        nuevoEventoViewModel = new ViewModelProvider(this).get(NuevoEventoViewModel.class);
+        if (nuevoEventoViewModel == null) {
+            nuevoEventoViewModel = new ViewModelProvider(this).get(NuevoEventoViewModel.class);
+        }
 
         // Cuando hagamos click en el EditText de Fecha evento se nos abrirá el DatetimePicker
         binding.etFechaEvento.setOnClickListener(v -> sFechaGuardar = Utils.showDateTimePicker(getContext(), binding.etFechaEvento));
@@ -81,7 +86,9 @@ public class NuevoEventoFragment extends Fragment {
                 RequestBody rbDescripcion = RequestBody.create(MediaType.parse("multipart/form-data"), descripcion);
                 RequestBody rbFechaGuardar = RequestBody.create(MediaType.parse("multipart/form-data"), sFechaGuardar);
                 RequestBody rbPrecio = RequestBody.create(MediaType.parse("multipart/form-data"), precio);
-                RequestBody rbIdCreador = RequestBody.create(MediaType.parse("multipart/form-data"), "idCreador");
+                RequestBody rbIdCreador = RequestBody.create(MediaType.parse("multipart/form-data"), Utils.obtenerValorSharedPreferences(getContext(), "idUsuario"));
+                RequestBody rbFotoCreador = RequestBody.create(MediaType.parse("multipart/form-data"), Utils.obtenerValorSharedPreferences(getContext(), "foto"));
+                RequestBody rbNombreCreador = RequestBody.create(MediaType.parse("multipart/form-data"), Utils.obtenerValorSharedPreferences(getContext(), "nombre"));
 
                 // Llamamos al viewmodel para crear el nuevo evento
                 nuevoEventoViewModel.crearEvento(
@@ -91,7 +98,9 @@ public class NuevoEventoFragment extends Fragment {
                         rbFechaGuardar,
                         uploads,
                         rbPrecio,
-                        rbIdCreador);
+                        rbIdCreador,
+                        rbFotoCreador,
+                        rbNombreCreador);
             }
         });
 
@@ -135,7 +144,7 @@ public class NuevoEventoFragment extends Fragment {
 
             if (evento != null && evento instanceof Evento) {
                 Utils.notificarExito(getContext(), getString(R.string.mensaje_exito_nuevo_evento));
-                Navigation.findNavController(getView()).navigate(R.id.action_navigation_nuevo_to_navigation_home);
+                Navigation.findNavController(getView()).navigate(R.id.action_nuevoEventoFragment_to_eventosFragment);
             }
         });
 
@@ -194,5 +203,6 @@ public class NuevoEventoFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         binding = null;
+        nuevoEventoViewModel.mldEvento.removeObservers(this);
     }
 }

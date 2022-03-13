@@ -6,7 +6,9 @@ import com.guidogonzalez.eventos.utils.Utils;
 
 import java.util.List;
 
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.core.Single;
+import io.reactivex.rxjava3.core.SingleObserver;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Retrofit;
@@ -36,13 +38,15 @@ public class ApiService {
     }
 
     public Single<Evento> nuevoEvento(String bearer,
-                                      RequestBody nombre,
-                                      RequestBody descripcion,
-                                      RequestBody fechaEvento,
-                                      MultipartBody.Part fotos,
-                                      RequestBody precio,
-                                      RequestBody idCreador) {
-        return api.nuevoEvento(bearer, nombre, descripcion, fechaEvento, fotos, precio, idCreador);
+                                              RequestBody nombre,
+                                              RequestBody descripcion,
+                                              RequestBody fechaEvento,
+                                              MultipartBody.Part fotos,
+                                              RequestBody precio,
+                                              RequestBody idCreador,
+                                              RequestBody fotoCreador,
+                                              RequestBody nombreCreador) {
+        return api.nuevoEvento(bearer, nombre, descripcion, fechaEvento, fotos, precio, idCreador, fotoCreador, nombreCreador);
     }
 
     public Single<Evento> actualizarEvento(String bearer,
