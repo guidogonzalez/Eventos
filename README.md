@@ -31,6 +31,7 @@ Son apuntes a destacar que se puede encontrar u observar.
 - Diversos workarounds como por ejemplo para el Login y Logout
 - Utilizado SharedPreferences para almacenamiento de datos del login/sensibles, cuando a lo mejor AccountManager puede ser una solución 
 - Falta de validaciones tanto en los webservices como en la propia App, por ejemplo comprobar que el email tiene el formato correcto, etc.
+- Por falta de tiempo y además de que me he olvidado completamente del filtro de búsqueda
 
 ## Capturas
 
