@@ -12,7 +12,7 @@ Através de [Descarga](https://github.com/guidogonzalez/Eventos/tree/main/descar
 <br>
 Para descargar la API podemos acceder a través del [repositorio](https://github.com/guidogonzalez/ConectaFutbol/tree/main/descarga) de la misma
 
-<img src="/imagenes/eventos.png" align="right" width="47%"/>
+<img src="/imagenes/eventos.png" align="right" width="25%"/>
 
 ## Información
 
@@ -37,7 +37,6 @@ Son apuntes a destacar que se puede encontrar u observar.
 <p align="center">
 <img src="/imagenes/login.png" align="left" width="15%"/>
 <img src="/imagenes/registro.png" align="center" width="15%"/>
-<img src="/imagenes/eventos.png" align="right" width="15%"/>
 <img src="/imagenes/nuevoevento.png" align="left" width="15%"/>
 <img src="/imagenes/perfil.png" align="left" width="15%"/>
 <img src="/imagenes/editarevento.png" align="left" width="15%"/>
