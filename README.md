@@ -10,7 +10,7 @@ Aplicación realizada en Java.
 
 Através de [Descarga](https://github.com/guidogonzalez/Eventos/tree/master/descarga) para descargar la APK.
 <br>
-Para descargar la API podemos acceder a través del [repositorio](https://github.com/guidogonzalez/ConectaFutbol/tree/main/descarga) de la misma
+Para descargar la API podemos acceder a través del [repositorio](https://github.com/guidogonzalez/restapieventos) de la misma
 
 <img src="/imagenes/eventos.png" align="right" width="25%"/>
 
