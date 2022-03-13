@@ -1,5 +1,4 @@
 # Eventos
-<h1 align="center">Eventos</h1>
 
 <p align="center">
 Aplicación realizada en Java.
