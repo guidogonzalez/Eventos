@@ -8,7 +8,9 @@ Aplicación realizada en Java.
 ## Descargar
 
 Através de [Descarga](https://github.com/guidogonzalez/Eventos/tree/master/descarga) para descargar la APK.
-<br>
+
+## API
+
 Para descargar la API podemos acceder a través del [repositorio](https://github.com/guidogonzalez/restapieventos) de la misma
 
 <img src="/imagenes/eventos.png" align="right" width="25%"/>
